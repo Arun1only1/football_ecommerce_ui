@@ -14,6 +14,7 @@ import axios from "axios";
 import { Box } from "@mui/material";
 import LinearProgress from "@mui/material/LinearProgress";
 import { useNavigate } from "react-router-dom";
+import $axios from "../lib/axios.instance";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -21,11 +22,16 @@ const Login = () => {
   const { isLoading, isError, error, mutate } = useMutation({
     mutationKey: ["login-user"],
     mutationFn: async (values) => {
-      return await axios.post("http://localhost:8000/user/login", values);
+      return await $axios.post("/user/login", values);
     },
     onSuccess: (response) => {
-      console.log(response);
-      navigate("/");
+      // save token , user role and user name in local storage
+      localStorage.setItem("token", response?.data?.token);
+      localStorage.setItem("userRole", response?.data?.user?.role);
+      localStorage.setItem("firstName", response?.data?.user?.firstName);
+      localStorage.setItem("lastName", response?.data?.user?.lastName);
+
+      navigate("/home");
     },
     onError: (error) => {
       console.log(error?.response?.data?.message);

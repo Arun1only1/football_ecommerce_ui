@@ -23,6 +23,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import LinearProgress from "@mui/material/LinearProgress";
 import { Box } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import $axios from "../lib/axios.instance";
 const Register = () => {
   const navigate = useNavigate();
   const minDate = dayjs().startOf("d").subtract(18, "y").format("DD/MM/YYYY");
@@ -30,7 +31,7 @@ const Register = () => {
   const { isLoading, isError, error, mutate } = useMutation({
     mutationKey: ["register-user"],
     mutationFn: async (values) => {
-      return await axios.post("http://localhost:8000/user/register", values);
+      return await $axios.post("/user/register", values);
     },
     onSuccess: (response) => {
       console.log(response);
