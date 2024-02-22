@@ -15,6 +15,7 @@ import Typography from "@mui/material/Typography";
 import * as React from "react";
 import { useNavigate } from "react-router-dom";
 import LogoutConfirmationDialog from "./LogoutConfirmationDialog";
+import CustomAvatar from "./CustomAvatar";
 
 const drawerWidth = 240;
 const navItems = [
@@ -71,7 +72,7 @@ const Header = (props) => {
     window !== undefined ? () => window().document.body : undefined;
 
   return (
-    <Box sx={{ display: "flex", mb: "2rem" }}>
+    <Box sx={{ display: "flex", mb: "6rem" }}>
       <CssBaseline />
       <AppBar component="nav" sx={{ background: "green" }}>
         <Toolbar>
@@ -104,6 +105,7 @@ const Header = (props) => {
               </Button>
             ))}
           </Box>
+          <CustomAvatar />
           <LogoutConfirmationDialog />
         </Toolbar>
       </AppBar>

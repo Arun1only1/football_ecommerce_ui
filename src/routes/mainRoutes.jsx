@@ -1,5 +1,6 @@
 import MainLayout from "../layout/MainLayout";
 import About from "../pages/About";
+import AddProduct from "../pages/AddProduct";
 import Contact from "../pages/Contact";
 import Home from "../pages/Home";
 import ProductList from "../pages/ProductList";
@@ -24,6 +25,10 @@ const mainRoutes = [
       {
         path: "contact",
         element: <Contact />,
+      },
+      {
+        path: "add-product",
+        element: <AddProduct />,
       },
     ],
   },

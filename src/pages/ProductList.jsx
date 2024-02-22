@@ -1,6 +1,5 @@
-import React from "react";
-import ProductCard from "../components/ProductCard";
 import { Box } from "@mui/material";
+import React from "react";
 import BuyerProductList from "./BuyerProductList";
 import SellerProductList from "./SellerProductList";
 

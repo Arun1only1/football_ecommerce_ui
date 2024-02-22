@@ -16,7 +16,7 @@ const MainLayout = () => {
       <Header />
       <Box
         sx={{
-          padding: "2rem",
+          display: "flex",
           direction: "row",
           justifyContent: "center",
           alignItems: "center",

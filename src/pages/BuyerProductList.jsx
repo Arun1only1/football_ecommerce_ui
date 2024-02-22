@@ -21,9 +21,16 @@ const BuyerProductList = () => {
     return <CircularProgress color="secondary" />;
   }
   return (
-    <Box sx={{ display: "flex", flexWrap: "wrap", gap: "2rem" }}>
+    <Box
+      sx={{
+        display: "flex",
+        flexWrap: "wrap",
+        gap: "2rem",
+        justifyContent: "center",
+      }}
+    >
       {productList.map((item) => {
-        return <ProductCard key={item._id} />;
+        return <ProductCard key={item._id} {...item} />;
       })}
     </Box>
   );
