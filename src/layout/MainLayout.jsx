@@ -20,6 +20,7 @@ const MainLayout = () => {
           direction: "row",
           justifyContent: "center",
           alignItems: "center",
+          minHeight: "90vh",
         }}
       >
         <Outlet />

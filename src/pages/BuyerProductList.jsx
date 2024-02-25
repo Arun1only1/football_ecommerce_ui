@@ -3,6 +3,7 @@ import { Box, CircularProgress } from "@mui/material";
 import ProductCard from "../components/ProductCard";
 import { useQuery } from "react-query";
 import $axios from "../lib/axios.instance";
+import Loader from "../components/Loader";
 
 const BuyerProductList = () => {
   const { isLoading, isError, error, data } = useQuery({
@@ -18,7 +19,7 @@ const BuyerProductList = () => {
   const productList = data?.data?.productList;
 
   if (isLoading) {
-    return <CircularProgress color="secondary" />;
+    return <Loader />;
   }
   return (
     <Box

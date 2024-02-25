@@ -6,8 +6,11 @@ import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import * as React from "react";
 import { fallbackImage } from "../constant/general.constant";
+import { useNavigate } from "react-router-dom";
 
 const ProductCard = (props) => {
+  console.log(props);
+  const navigate = useNavigate();
   return (
     <Card
       sx={{
@@ -17,12 +20,16 @@ const ProductCard = (props) => {
       }}
     >
       <img
+        onClick={() => {
+          navigate(`/product-detail/${props._id}`);
+        }}
         src={props.image || fallbackImage}
         alt=""
         style={{
           width: "100%",
-
+          objectFit: "contain",
           height: "300px",
+          cursor: "pointer",
         }}
       />
       <CardContent>
@@ -38,7 +45,14 @@ const ProductCard = (props) => {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button variant="contained" color="success" fullWidth>
+        <Button
+          variant="contained"
+          color="success"
+          fullWidth
+          onClick={() => {
+            navigate(`/product-detail/${props._id}`);
+          }}
+        >
           Explore
         </Button>
       </CardActions>
