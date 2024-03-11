@@ -21,6 +21,7 @@ const MainLayout = () => {
           justifyContent: "center",
           alignItems: "center",
           minHeight: "90vh",
+          width: "100vw",
         }}
       >
         <Outlet />

@@ -9,7 +9,6 @@ import { fallbackImage } from "../constant/general.constant";
 import { useNavigate } from "react-router-dom";
 
 const ProductCard = (props) => {
-  console.log(props);
   const navigate = useNavigate();
   return (
     <Card

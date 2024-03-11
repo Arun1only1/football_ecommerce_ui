@@ -16,6 +16,10 @@ import * as React from "react";
 import { useNavigate } from "react-router-dom";
 import LogoutConfirmationDialog from "./LogoutConfirmationDialog";
 import CustomAvatar from "./CustomAvatar";
+import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
+import { Badge } from "@mui/material";
+import { useQuery } from "react-query";
+import $axios from "../lib/axios.instance";
 
 const drawerWidth = 240;
 const navItems = [
@@ -29,11 +33,6 @@ const navItems = [
     name: "Product",
     path: "/products",
   },
-  {
-    id: 3,
-    name: "Contact",
-    path: "/contact",
-  },
 ];
 
 const Header = (props) => {
@@ -41,9 +40,22 @@ const Header = (props) => {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
+  const userRole = localStorage.getItem("userRole");
+
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
   };
+
+  // get cart Item count
+  const { isLoading, isError, error, data } = useQuery({
+    queryKey: ["get-cart-item-count"],
+    queryFn: async () => {
+      return await $axios.get("/cart/item/count");
+    },
+    enabled: userRole === "buyer",
+  });
+
+  const itemCount = data?.data?.itemCount;
 
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
@@ -105,6 +117,17 @@ const Header = (props) => {
               </Button>
             ))}
           </Box>
+          {userRole === "buyer" && (
+            <Badge
+              onClick={() => navigate("/cart")}
+              badgeContent={itemCount}
+              color="primary"
+              sx={{ marginRight: "2rem", cursor: "pointer" }}
+            >
+              <ShoppingCartOutlinedIcon sx={{ color: "#fff" }} />
+            </Badge>
+          )}
+
           <CustomAvatar />
           <LogoutConfirmationDialog />
         </Toolbar>
