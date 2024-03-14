@@ -1,5 +1,5 @@
 import { Formik } from "formik";
-import React from "react";
+import React, { useState } from "react";
 import * as Yup from "yup";
 import { productCategories } from "../constant/general.constant";
 import {
@@ -18,8 +18,13 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useMutation, useQuery } from "react-query";
 import $axios from "../lib/axios.instance";
 import Loader from "../components/Loader";
+import axios from "axios";
 
 const EditProduct = () => {
+  const [productImage, setProductImage] = useState(null);
+  const [localUrl, setLocalUrl] = useState(null);
+  const [imageLoading, setImageLoading] = useState(false);
+
   const { id: productId } = useParams();
   const navigate = useNavigate();
 
@@ -46,7 +51,7 @@ const EditProduct = () => {
       console.log(error?.response?.data?.message);
     },
   });
-  if (isLoading || editProductLoading) {
+  if (isLoading || editProductLoading || imageLoading) {
     return <Loader />;
   }
   return (
@@ -90,7 +95,35 @@ const EditProduct = () => {
             .max(1000, "Description must be at max 1000 characters."),
           image: Yup.string().trim().nullable(),
         })}
-        onSubmit={(values) => {
+        onSubmit={async (values) => {
+          let imageUrl;
+
+          if (productImage) {
+            const cloudname = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
+            const upload_preset = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
+
+            const data = new FormData();
+
+            data.append("file", productImage);
+            data.append("upload_preset", upload_preset);
+            data.append("cloud_name", cloudname);
+            try {
+              setImageLoading(true);
+              const res = await axios.post(
+                `https://api.cloudinary.com/v1_1/${cloudname}/image/upload`,
+                data
+              );
+
+              imageUrl = res?.data?.secure_url;
+
+              setImageLoading(false);
+            } catch (error) {
+              setImageLoading(false);
+              console.log("File upload failed");
+            }
+          }
+
+          values.image = imageUrl;
           mutate(values);
         }}
       >
@@ -110,6 +143,27 @@ const EditProduct = () => {
             <Typography variant="h5" textAlign="center">
               Edit product
             </Typography>
+
+            <Stack sx={{ height: "250px" }}>
+              {(localUrl || productDetails?.image) && (
+                <img
+                  src={localUrl || productDetails?.image}
+                  alt={productDetails?.name}
+                  style={{ height: "100%" }}
+                />
+              )}
+            </Stack>
+
+            <FormControl>
+              <input
+                type="file"
+                onChange={(event) => {
+                  const file = event?.target?.files[0];
+                  setProductImage(file);
+                  setLocalUrl(URL.createObjectURL(file));
+                }}
+              />
+            </FormControl>
 
             <FormControl>
               <TextField label="Name" {...getFieldProps("name")} />

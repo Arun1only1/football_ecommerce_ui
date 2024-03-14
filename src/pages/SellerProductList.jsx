@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Button } from "@mui/material";
+import { Box, Button, Stack } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "react-query";
 import { getSellerProducts } from "../lib/apis";
@@ -28,9 +28,11 @@ const SellerProductList = () => {
 
   return (
     <Box>
-      <Button variant="contained" color="success" onClick={goToAddProduct}>
-        Add product
-      </Button>
+      <Stack alignItems="center" mb="1rem">
+        <Button variant="contained" color="success" onClick={goToAddProduct}>
+          Add product
+        </Button>
+      </Stack>
 
       <Box
         sx={{

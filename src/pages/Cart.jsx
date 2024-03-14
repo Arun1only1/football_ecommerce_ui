@@ -1,7 +1,7 @@
 import React from "react";
 import CartTable from "../components/CartTable";
 import OrderSummary from "../components/OrderSummary";
-import { Box } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import { useQuery } from "react-query";
 import $axios from "../lib/axios.instance";
 import Loader from "../components/Loader";
@@ -16,6 +16,7 @@ const Cart = () => {
   });
 
   const cartItems = data?.data?.cartItems;
+  const orderSummary = data?.data?.orderSummary;
 
   if (isLoading) {
     return <Loader />;
@@ -25,12 +26,14 @@ const Cart = () => {
     return <NoCartItem />;
   }
   return (
-    <Box
-      sx={{ display: "flex", width: "100vw", justifyContent: "space-around" }}
-    >
-      <CartTable cartItems={cartItems} />
-      <OrderSummary />
-    </Box>
+    <>
+      <Box
+        sx={{ display: "flex", width: "100vw", justifyContent: "space-around" }}
+      >
+        <CartTable cartItems={cartItems} />
+        <OrderSummary orderSummary={orderSummary} />
+      </Box>
+    </>
   );
 };
 

@@ -22,6 +22,7 @@ const MainLayout = () => {
           alignItems: "center",
           minHeight: "90vh",
           width: "100vw",
+          flexWrap: "wrap",
         }}
       >
         <Outlet />

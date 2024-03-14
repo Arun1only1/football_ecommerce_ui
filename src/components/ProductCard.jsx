@@ -1,4 +1,4 @@
-import { Chip, Stack } from "@mui/material";
+import { Box, Chip, Stack } from "@mui/material";
 import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
@@ -13,7 +13,7 @@ const ProductCard = (props) => {
   return (
     <Card
       sx={{
-        width: "25%",
+        width: "30%",
         boxShadow:
           " rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px",
       }}
@@ -25,12 +25,13 @@ const ProductCard = (props) => {
         src={props.image || fallbackImage}
         alt=""
         style={{
+          height: "400px",
           width: "100%",
-          objectFit: "contain",
-          height: "300px",
+
           cursor: "pointer",
         }}
       />
+
       <CardContent>
         <Stack direction="row" sx={{ justifyContent: "space-between" }}>
           <Typography gutterBottom variant="h5" component="div">
@@ -46,7 +47,7 @@ const ProductCard = (props) => {
       <CardActions>
         <Button
           variant="contained"
-          color="success"
+          color="secondary"
           fullWidth
           onClick={() => {
             navigate(`/product-detail/${props._id}`);

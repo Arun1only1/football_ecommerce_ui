@@ -9,7 +9,8 @@ const ProductImage = (props) => {
         src={props.imageUrl || fallbackImage}
         alt=""
         style={{
-          width: "500px",
+          width: "100%",
+          height: "600px",
         }}
       />
     </Box>
