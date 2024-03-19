@@ -15,9 +15,16 @@ import { useNavigate, useParams } from "react-router-dom";
 import DeleteProductDialog from "./DeleteProductDialog";
 import { useMutation, useQueryClient } from "react-query";
 import $axios from "../lib/axios.instance";
+import { useDispatch } from "react-redux";
+import {
+  openErrorSnackBar,
+  openSuccessSnackBar,
+} from "../store/slices/snackbarSlice";
 
 const ProductDescription = (props) => {
   const [count, setCount] = useState(1);
+
+  const dispatch = useDispatch();
 
   const params = useParams();
   const queryClient = useQueryClient();
@@ -49,16 +56,22 @@ const ProductDescription = (props) => {
         orderedQuantity: count,
       });
     },
-    onSuccess: () => {
+    onSuccess: (res) => {
       queryClient.invalidateQueries("get-cart-item-count");
+      dispatch(openSuccessSnackBar(res?.data?.message));
     },
-    onError: () => {
-      console.log("errors");
+    onError: (error) => {
+      dispatch(openErrorSnackBar(error?.response?.data?.message));
     },
   });
 
   return (
-    <Grid container direction="column" spacing={2} sx={{ width: "50%" }}>
+    <Grid
+      container
+      direction="column"
+      spacing={2}
+      sx={{ width: { xs: "100%", md: "50%" }, justifyContent: "center" }}
+    >
       <Grid item>
         <Typography variant="h5">{props.name}</Typography>
       </Grid>

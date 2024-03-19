@@ -28,7 +28,13 @@ const Cart = () => {
   return (
     <>
       <Box
-        sx={{ display: "flex", width: "100vw", justifyContent: "space-around" }}
+        sx={{
+          display: "flex",
+          width: "100vw",
+          flexDirection: { xs: "column", md: "row" },
+          gap: { xs: "4rem", md: null },
+          justifyContent: "space-around",
+        }}
       >
         <CartTable cartItems={cartItems} />
         <OrderSummary orderSummary={orderSummary} />

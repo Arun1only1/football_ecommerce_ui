@@ -15,11 +15,14 @@ import { Box } from "@mui/material";
 import LinearProgress from "@mui/material/LinearProgress";
 import { useNavigate } from "react-router-dom";
 import $axios from "../lib/axios.instance";
+import { useDispatch } from "react-redux";
+import { openErrorSnackBar } from "../store/slices/snackbarSlice";
 
 const Login = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { isLoading, isError, error, mutate } = useMutation({
+  const { isLoading, mutate } = useMutation({
     mutationKey: ["login-user"],
     mutationFn: async (values) => {
       return await $axios.post("/user/login", values);
@@ -34,7 +37,7 @@ const Login = () => {
       navigate("/home");
     },
     onError: (error) => {
-      console.log(error?.response?.data?.message);
+      dispatch(openErrorSnackBar(error?.response?.data?.message));
     },
   });
 

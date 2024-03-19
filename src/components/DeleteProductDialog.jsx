@@ -12,12 +12,18 @@ import { useMutation, useQueryClient } from "react-query";
 import { deleteProduct } from "../lib/apis";
 import { useNavigate, useParams } from "react-router-dom";
 import Loader from "./Loader";
+import { useDispatch } from "react-redux";
+import {
+  openErrorSnackBar,
+  openSuccessSnackBar,
+} from "../store/slices/snackbarSlice";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
 const DeleteProductDialog = () => {
+  const dispatch = useDispatch();
   const [open, setOpen] = React.useState(false);
 
   const params = useParams();
@@ -40,9 +46,10 @@ const DeleteProductDialog = () => {
     },
     onSuccess: (res) => {
       navigate("/products");
+      dispatch(openSuccessSnackBar(res?.data?.message));
     },
     onError: (error) => {
-      console.log(error?.response?.data?.message);
+      dispatch(openErrorSnackBar(error?.response?.data?.message));
     },
   });
 

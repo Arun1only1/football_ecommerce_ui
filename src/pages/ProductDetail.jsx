@@ -27,17 +27,22 @@ const ProductDetail = () => {
     <Box
       sx={{
         display: "flex",
-        flexDirection: "row",
+        flexDirection: {
+          xs: "column",
+          md: "row",
+        },
         maxWidth: "90%",
 
         justifyContent: "center",
         alignItems: "center",
-        padding: "2rem",
-        margin: "2rem",
+        padding: { xs: null, md: "2rem" },
+        margin: { xs: null, md: "2rem" },
 
         gap: "2rem",
-        boxShadow:
-          " rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px",
+        boxShadow: {
+          xs: null,
+          md: " rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px",
+        },
       }}
     >
       <ProductImage imageUrl={productDetails?.image} />

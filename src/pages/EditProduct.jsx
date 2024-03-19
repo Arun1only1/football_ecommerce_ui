@@ -19,8 +19,14 @@ import { useMutation, useQuery } from "react-query";
 import $axios from "../lib/axios.instance";
 import Loader from "../components/Loader";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import {
+  openErrorSnackBar,
+  openSuccessSnackBar,
+} from "../store/slices/snackbarSlice";
 
 const EditProduct = () => {
+  const dispatch = useDispatch();
   const [productImage, setProductImage] = useState(null);
   const [localUrl, setLocalUrl] = useState(null);
   const [imageLoading, setImageLoading] = useState(false);
@@ -46,9 +52,10 @@ const EditProduct = () => {
     },
     onSuccess: (res) => {
       navigate(`/product-detail/${productId}`);
+      dispatch(openSuccessSnackBar(res?.data?.message));
     },
     onError: (error) => {
-      console.log(error?.response?.data?.message);
+      dispatch(openErrorSnackBar(error?.response?.data?.message));
     },
   });
   if (isLoading || editProductLoading || imageLoading) {

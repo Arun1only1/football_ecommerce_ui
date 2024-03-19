@@ -4,7 +4,14 @@ import { fallbackImage } from "../constant/general.constant";
 
 const ProductImage = (props) => {
   return (
-    <Box sx={{ width: "50%" }}>
+    <Box
+      sx={{
+        width: {
+          xs: "100%",
+          md: "50%",
+        },
+      }}
+    >
       <img
         src={props.imageUrl || fallbackImage}
         alt=""

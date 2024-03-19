@@ -22,8 +22,14 @@ import { useMutation, useQuery, useQueryClient } from "react-query";
 import $axios from "../lib/axios.instance";
 import Loader from "./Loader";
 import { fallbackImage } from "../constant/general.constant";
+import { useDispatch } from "react-redux";
+import {
+  openErrorSnackBar,
+  openSuccessSnackBar,
+} from "../store/slices/snackbarSlice";
 
 const CartTable = ({ cartItems }) => {
+  const dispatch = useDispatch();
   const queryClient = useQueryClient();
 
   const { isLoading: removeItemLoading, mutate } = useMutation({
@@ -34,9 +40,10 @@ const CartTable = ({ cartItems }) => {
     onSuccess: (res) => {
       queryClient.invalidateQueries("get-cart-items");
       queryClient.invalidateQueries("get-cart-item-count");
+      dispatch(openSuccessSnackBar(res?.data?.message));
     },
     onError: (error) => {
-      console.log(error?.response?.data?.message);
+      dispatch(openErrorSnackBar(error?.response?.data?.message));
     },
   });
 
@@ -48,9 +55,11 @@ const CartTable = ({ cartItems }) => {
     onSuccess: (res) => {
       queryClient.invalidateQueries("get-cart-items");
       queryClient.invalidateQueries("get-cart-item-count");
+
+      dispatch(openSuccessSnackBar(res?.data?.message));
     },
     onError: (error) => {
-      console.log("error");
+      dispatch(openErrorSnackBar(error?.response?.data?.message));
     },
   });
 
@@ -67,8 +76,8 @@ const CartTable = ({ cartItems }) => {
     onSuccess: () => {
       queryClient.invalidateQueries("get-cart-items");
     },
-    onError: () => {
-      console.log("error");
+    onError: (error) => {
+      dispatch(openErrorSnackBar(error?.response?.data?.message));
     },
   });
 
@@ -83,7 +92,10 @@ const CartTable = ({ cartItems }) => {
         <Button
           variant="contained"
           color="error"
-          sx={{ width: "200px", alignItems: "right" }}
+          sx={{
+            width: { xs: "100%", md: "200px" },
+            alignItems: { xs: "center", md: "right" },
+          }}
           onClick={() => {
             flushCartMutate();
           }}

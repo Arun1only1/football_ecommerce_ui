@@ -20,10 +20,16 @@ import { useMutation } from "react-query";
 import { addProduct } from "../lib/apis";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import {
+  openErrorSnackBar,
+  openSuccessSnackBar,
+} from "../store/slices/snackbarSlice";
 
 const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
 const AddProduct = () => {
+  const dispatch = useDispatch();
   const [productImage, setProductImage] = useState(null);
   const [localUrl, setLocalUrl] = useState(null);
   const [imageLoading, setImageLoading] = useState(false);
@@ -34,9 +40,10 @@ const AddProduct = () => {
     mutationFn: addProduct,
     onSuccess: (response) => {
       navigate("/products");
+      dispatch(openSuccessSnackBar(response?.data?.message));
     },
     onError: (error) => {
-      console.log(error?.response?.data?.message);
+      dispatch(openErrorSnackBar(error?.response?.data?.message));
     },
   });
 
@@ -117,15 +124,20 @@ const AddProduct = () => {
               flexDirection: "column",
               gap: "2rem",
               padding: "1.5rem",
-              width: "450px",
+              width: {
+                xs: "100vw",
+                md: "60%",
+              },
               boxShadow:
                 "rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px",
             }}
           >
-            <Typography variant="h5">Add Product</Typography>
+            <Typography variant="h5" textAlign="center">
+              Add Product
+            </Typography>
 
             {productImage && (
-              <Stack sx={{ height: "250px" }}>
+              <Stack sx={{ height: "250px", alignItems: "center" }}>
                 <img src={localUrl} style={{ height: "100%" }} />
               </Stack>
             )}
