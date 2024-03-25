@@ -20,6 +20,7 @@ import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import { Badge } from "@mui/material";
 import { useQuery } from "react-query";
 import $axios from "../lib/axios.instance";
+import { useSelector } from "react-redux";
 
 const drawerWidth = 240;
 const navItems = [
@@ -40,6 +41,7 @@ const Header = (props) => {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
+  const { paymentSuccessStatus } = useSelector((state) => state.payment);
   const userRole = localStorage.getItem("userRole");
 
   const handleDrawerToggle = () => {
@@ -48,7 +50,7 @@ const Header = (props) => {
 
   // get cart Item count
   const { isLoading, isError, error, data } = useQuery({
-    queryKey: ["get-cart-item-count"],
+    queryKey: ["get-cart-item-count", paymentSuccessStatus],
     queryFn: async () => {
       return await $axios.get("/cart/item/count");
     },

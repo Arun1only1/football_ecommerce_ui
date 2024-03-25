@@ -5,6 +5,7 @@ import Cart from "../pages/Cart";
 import Contact from "../pages/Contact";
 import EditProduct from "../pages/EditProduct";
 import Home from "../pages/Home";
+import PaymentSuccess from "../pages/PaymentSuccess";
 import ProductDetail from "../pages/ProductDetail";
 import ProductList from "../pages/ProductList";
 
@@ -44,6 +45,10 @@ const mainRoutes = [
       {
         path: "cart",
         element: <Cart />,
+      },
+      {
+        path: "payment/khalti/success",
+        element: <PaymentSuccess />,
       },
     ],
   },

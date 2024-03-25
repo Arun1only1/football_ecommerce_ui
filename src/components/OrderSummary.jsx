@@ -1,7 +1,41 @@
 import { Box, Button, Stack, Typography } from "@mui/material";
 import React from "react";
+import { useMutation } from "react-query";
+import $axios from "../lib/axios.instance";
+import { useDispatch } from "react-redux";
+import {
+  openErrorSnackBar,
+  openSuccessSnackBar,
+} from "../store/slices/snackbarSlice";
+import Loader from "./Loader";
+import { useNavigate } from "react-router-dom";
 
-const OrderSummary = ({ orderSummary }) => {
+const OrderSummary = ({ orderSummary, grandTotal, productDataForOrdering }) => {
+  console.log(productDataForOrdering);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const { isLoading, mutate } = useMutation({
+    mutationKey: ["initiate-khalti-payment"],
+    mutationFn: async () => {
+      return await $axios.post("/payment/khalti/start", {
+        amount: grandTotal,
+        productList: productDataForOrdering,
+      });
+    },
+
+    onSuccess: (res) => {
+      const paymentUrl = res?.data?.paymentDetails?.payment_url;
+      window.location.href = paymentUrl;
+    },
+    onError: (error) => {
+      dispatch(openErrorSnackBar(error?.response?.data?.message));
+    },
+  });
+
+  if (isLoading) {
+    return <Loader />;
+  }
   return (
     <Box
       sx={{
@@ -34,8 +68,13 @@ const OrderSummary = ({ orderSummary }) => {
         );
       })}
 
-      <Button variant="contained" color="success" fullWidth>
-        Proceed to checkout
+      <Button
+        variant="contained"
+        color="success"
+        fullWidth
+        onClick={() => mutate()}
+      >
+        pay with khalti
       </Button>
     </Box>
   );

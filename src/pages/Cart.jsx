@@ -17,6 +17,17 @@ const Cart = () => {
 
   const cartItems = data?.data?.cartItems;
   const orderSummary = data?.data?.orderSummary;
+  const grandTotal = data?.data?.grandTotal;
+
+  const productDataForOrdering = cartItems?.map((item) => {
+    return {
+      productId: item?.productId,
+      orderedQuantity: item?.orderedQuantity,
+      sellerId: item?.sellerId,
+      unitPrice: item?.price,
+      subTotal: item?.subTotal,
+    };
+  });
 
   if (isLoading) {
     return <Loader />;
@@ -37,7 +48,11 @@ const Cart = () => {
         }}
       >
         <CartTable cartItems={cartItems} />
-        <OrderSummary orderSummary={orderSummary} />
+        <OrderSummary
+          orderSummary={orderSummary}
+          grandTotal={grandTotal}
+          productDataForOrdering={productDataForOrdering}
+        />
       </Box>
     </>
   );
