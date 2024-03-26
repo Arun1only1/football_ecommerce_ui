@@ -50,7 +50,7 @@ const OrderTable = () => {
             <TableRow>
               {tableHeaders.map((item, index) => {
                 return (
-                  <TableCell key={index} align="left">
+                  <TableCell key={index} align="center">
                     {item}
                   </TableCell>
                 );
@@ -63,15 +63,15 @@ const OrderTable = () => {
                 key={item._id}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
-                <TableCell component="th" scope="row">
+                <TableCell component="th" scope="row" align="center">
                   {index + 1}
                 </TableCell>
-                <TableCell align="left">{item.productData.name}</TableCell>
+                <TableCell align="center">{item.productData.name}</TableCell>
                 <TableCell align="center">{item.orderedQuantity}</TableCell>
                 <TableCell align="center">${item.unitPrice}</TableCell>
                 <TableCell align="center">${item.subTotal}</TableCell>
-                <TableCell align="left">{`${item.buyerData.firstName} ${item.buyerData.lastName} `}</TableCell>
-                <TableCell align="left">{item.buyerData.email}</TableCell>
+                <TableCell align="center">{`${item.buyerData.firstName} ${item.buyerData.lastName} `}</TableCell>
+                <TableCell align="center">{item.buyerData.email}</TableCell>
                 <TableCell align="center" sx={{ color: "green" }}>
                   {item.paymentStatus}
                 </TableCell>
