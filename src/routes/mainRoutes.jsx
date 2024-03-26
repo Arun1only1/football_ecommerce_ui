@@ -1,3 +1,4 @@
+import AuthGuard from "../guards/AuthGuard";
 import MainLayout from "../layout/MainLayout";
 import About from "../pages/About";
 import AddProduct from "../pages/AddProduct";
@@ -5,6 +6,7 @@ import Cart from "../pages/Cart";
 import Contact from "../pages/Contact";
 import EditProduct from "../pages/EditProduct";
 import Home from "../pages/Home";
+import Order from "../pages/Order";
 import PaymentSuccess from "../pages/PaymentSuccess";
 import ProductDetail from "../pages/ProductDetail";
 import ProductList from "../pages/ProductList";
@@ -12,7 +14,11 @@ import ProductList from "../pages/ProductList";
 const mainRoutes = [
   {
     path: "/",
-    element: <MainLayout />,
+    element: (
+      <AuthGuard>
+        <MainLayout />
+      </AuthGuard>
+    ),
     children: [
       {
         path: "home",
@@ -50,6 +56,7 @@ const mainRoutes = [
         path: "payment/khalti/success",
         element: <PaymentSuccess />,
       },
+      { path: "order/details", element: <Order /> },
     ],
   },
 ];

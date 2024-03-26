@@ -130,6 +130,15 @@ const Header = (props) => {
             </Badge>
           )}
 
+          {userRole === "seller" && (
+            <Button
+              sx={{ color: "#fff" }}
+              onClick={() => navigate("/order/details")}
+            >
+              Orders
+            </Button>
+          )}
+
           <CustomAvatar />
           <LogoutConfirmationDialog />
         </Toolbar>

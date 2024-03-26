@@ -13,7 +13,8 @@ const SearchBar = () => {
         type="search"
         value={searchText}
         onChange={(event) => {
-          dispatch(updateSearchText(event?.target?.value));
+          const searchText = event?.target?.value;
+          dispatch(updateSearchText(searchText));
         }}
         startAdornment={
           <InputAdornment position="start">

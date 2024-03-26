@@ -11,7 +11,6 @@ const MainLayout = () => {
       sx={{
         display: "flex",
         flexDirection: "column",
-        gap: "2rem",
       }}
     >
       <Header />
@@ -21,8 +20,8 @@ const MainLayout = () => {
           direction: "row",
           justifyContent: "center",
           alignItems: "center",
-          minHeight: "90vh",
-          // width: "100vw",
+          minHeight: "70vh",
+
           flexWrap: "wrap",
         }}
       >
