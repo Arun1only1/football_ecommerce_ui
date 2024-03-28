@@ -20,7 +20,7 @@ const MainLayout = () => {
           direction: "row",
           justifyContent: "center",
           alignItems: "center",
-          minHeight: "70vh",
+          minHeight: "90vh",
 
           flexWrap: "wrap",
         }}

@@ -2,6 +2,7 @@ import {
   Button,
   FormControl,
   FormHelperText,
+  Stack,
   TextField,
   Typography,
 } from "@mui/material";
@@ -96,9 +97,12 @@ const Login = () => {
               Log in
             </Button>
 
-            <Link to="/register">
-              <Typography variant="subtitle2">New here? Register</Typography>
-            </Link>
+            <Stack direction="row" justifyContent="space-between">
+              <Link to="/forgot-password">Forgot password?</Link>
+              <Link to="/register">
+                <Typography variant="subtitle2">New here? Register</Typography>
+              </Link>
+            </Stack>
           </form>
         )}
       </Formik>
