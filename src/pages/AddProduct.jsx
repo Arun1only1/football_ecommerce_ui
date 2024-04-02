@@ -141,6 +141,7 @@ const AddProduct = () => {
             <FormControl>
               <input
                 type="file"
+                multiple
                 onChange={(event) => {
                   const file = event?.target?.files[0];
                   setProductImage(file);

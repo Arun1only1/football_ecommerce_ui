@@ -11,30 +11,33 @@ import React from "react";
 import { useMutation } from "react-query";
 import * as Yup from "yup";
 import $axios from "../lib/axios.instance";
-import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import {
   openErrorSnackBar,
   openSuccessSnackBar,
 } from "../store/slices/snackbarSlice";
 import Loader from "../components/Loader";
 
-const ForgotPassword = () => {
-  const navigate = useNavigate();
+const ResetPassword = () => {
   const dispatch = useDispatch();
 
+  const navigate = useNavigate();
   const { isLoading, mutate } = useMutation({
-    mutationKey: ["send-otp-code"],
+    mutationKey: ["reset-password"],
     mutationFn: async (values) => {
-      localStorage.setItem("email", values.email);
-      return await $axios.post("/otp/send-email", values);
+      return await $axios.put("/otp/change-password", {
+        email: localStorage.getItem("email"),
+        newPassword: values.newPassword,
+      });
     },
     onSuccess: (res) => {
       dispatch(openSuccessSnackBar(res?.data?.message));
-      navigate("/otp-verification");
+      navigate("/login");
+      localStorage.clear();
     },
     onError: (error) => {
-      dispatch(openErrorSnackBar(error?.response?.data?.message));
+      dispatch(openErrorSnackBar(error?.response?.data.message));
     },
   });
 
@@ -51,11 +54,18 @@ const ForgotPassword = () => {
         }}
       >
         <Formik
-          initialValues={{ email: "" }}
+          initialValues={{ newPassword: "", confirmNewPassword: "" }}
           validationSchema={Yup.object({
-            email: Yup.string()
-              .email("Must be a valid email.")
-              .required("Email is required."),
+            newPassword: Yup.string()
+              .required("Password is required.")
+              .trim()
+              .min(4, "Password must be at least 4 characters.")
+              .max(20, "Password must be at max 20 characters."),
+
+            confirmNewPassword: Yup.string().oneOf(
+              [Yup.ref("newPassword"), null],
+              "Password must match."
+            ),
           })}
           onSubmit={(values) => {
             mutate(values);
@@ -71,21 +81,31 @@ const ForgotPassword = () => {
               }}
             >
               <Typography variant="h5" textAlign="center">
-                Forgot password?
+                Reset password
               </Typography>
               <Typography textAlign="center">
-                {` Enter your email address below and we'll send you password reset
-                OTP.`}
+                {` Please choose your new password.`}
               </Typography>
               <FormControl>
-                <TextField label="Email Address" {...getFieldProps("email")} />
-                {touched.email && errors.email ? (
-                  <FormHelperText error>{errors.email}</FormHelperText>
+                <TextField label="Password" {...getFieldProps("newPassword")} />
+                {touched.newPassword && errors.newPassword ? (
+                  <FormHelperText error>{errors.newPassword}</FormHelperText>
+                ) : null}
+              </FormControl>
+              <FormControl>
+                <TextField
+                  label="Confirm password"
+                  {...getFieldProps("confirmNewPassword")}
+                />
+                {touched.confirmNewPassword && errors.confirmNewPassword ? (
+                  <FormHelperText error>
+                    {errors.confirmNewPassword}
+                  </FormHelperText>
                 ) : null}
               </FormControl>
 
               <Button color="secondary" variant="contained" type="submit">
-                send email
+                reset password
               </Button>
             </form>
           )}
@@ -95,4 +115,4 @@ const ForgotPassword = () => {
   );
 };
 
-export default ForgotPassword;
+export default ResetPassword;
